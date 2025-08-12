@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
@@ -22,14 +23,34 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ControlledComposition
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.senai.sp.jandira.clientesapp.model.Cliente
+import br.senai.sp.jandira.clientesapp.service.Conexao
 import br.senai.sp.jandira.clientesapp.ui.theme.ClientesAppTheme
+import kotlinx.coroutines.Dispatchers
+import retrofit2.await
 
 @Composable
 fun Conteudo(paddingValues: PaddingValues) {
+
+    val clienteAPI = Conexao().getClienteService()
+
+    var clientes by remember {
+        mutableStateOf(listOf<Cliente>())
+    }
+
+    LaunchedEffect(Dispatchers.IO) {
+        clientes = clienteAPI.listarTodos().await()
+    }
+
     Column(
         modifier = Modifier
             .padding(paddingValues)
@@ -51,7 +72,7 @@ fun Conteudo(paddingValues: PaddingValues) {
             )
         }
         LazyColumn {
-            items(10){
+            items(clientes){ cliente ->
                 Card(
                     modifier = Modifier
                         .padding(
@@ -70,8 +91,8 @@ fun Conteudo(paddingValues: PaddingValues) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column {
-                            Text(text = "Nome do Cliente")
-                            Text(text = "emaildo@cliente.com")
+                            Text(text = cliente.nome)
+                            Text(text = cliente.email)
                         }
                         Icon(
                             imageVector = Icons.Default.Delete,

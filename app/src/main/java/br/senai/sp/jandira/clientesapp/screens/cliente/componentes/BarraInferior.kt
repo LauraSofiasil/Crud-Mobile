@@ -1,9 +1,9 @@
 package br.senai.sp.jandira.clientesapp.screens.cliente.componentes
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -12,17 +12,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import br.senai.sp.jandira.clientesapp.ui.theme.ClientesAppTheme
 
 
 @Composable
-fun BarraInferior(modifier: Modifier = Modifier){
+fun BarraInferior(controleNavegacao: NavHostController?){
     NavigationBar (
         containerColor = MaterialTheme
             .colorScheme.primaryContainer
     ){
         NavigationBarItem(
-            onClick = {},
+            onClick = {
+                controleNavegacao!!.navigate("conteudo")
+            },
             selected = false,
             icon = {
                 Icon(
@@ -48,16 +51,18 @@ fun BarraInferior(modifier: Modifier = Modifier){
             }
         )
         NavigationBarItem(
-            onClick = {},
+            onClick = {
+                controleNavegacao!!.navigate("cadastro")
+            },
             selected = false,
             icon = {
                 Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "Perfil"
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Novo"
                 )
             },
             label = {
-                Text(text = "Meu Perfil")
+                Text(text = "Novo Cliente")
             }
         )
     }
@@ -67,6 +72,6 @@ fun BarraInferior(modifier: Modifier = Modifier){
 @Composable
 private fun BarraInferiorPreview(){
    ClientesAppTheme {
-       BarraInferior()
+       BarraInferior(null)
    }
 }
