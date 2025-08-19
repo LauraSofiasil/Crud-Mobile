@@ -16,10 +16,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ControlledComposition
@@ -42,6 +45,8 @@ import retrofit2.await
 fun Conteudo(paddingValues: PaddingValues) {
 
     val clienteAPI = Conexao().getClienteService()
+
+    var menssagemSucesso by remember { mutableStateOf(false) }
 
     var clientes by remember {
         mutableStateOf(listOf<Cliente>())
@@ -94,14 +99,50 @@ fun Conteudo(paddingValues: PaddingValues) {
                             Text(text = cliente.nome)
                             Text(text = cliente.email)
                         }
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Delete"
-                        )
+                        IconButton(
+                            onClick = {
+                                menssagemSucesso = true
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Delete"
+                            )
+                        }
                     }
                 }
             }
         }
+    }
+    if (menssagemSucesso){
+        AlertDialog(
+            onDismissRequest = {
+                menssagemSucesso = false
+            },
+            title = {
+               Text(text = "Excluir")
+            },
+            text = {
+                Text(text = "Deseja mesmo excluir este cliente!")
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+
+                    }
+                ) {
+                    Text(text = "Sim")
+                }
+
+            },
+            dismissButton = {
+                TextButton(
+                   onClick = {}
+                ) {
+                    Text(text = "Não")
+                }
+            }
+        )
     }
 }
 

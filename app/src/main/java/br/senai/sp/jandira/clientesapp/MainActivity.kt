@@ -29,21 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ClientesAppTheme {
 
-
                 ListaDeClientes()
-
-
-//                val cliente = Cliente(
-//                    id = null,
-//                    nome = "Cadastro da Laura Sofia",
-//                    email = "laura@gmail.com"
-//                )
-//
-//                val enviar = Conexao().getClienteService()
-//                LaunchedEffect(Dispatchers.IO) {
-//                    enviar.cadastrarCliente(cliente).await()
-//                }
-
             }
         }
     }
